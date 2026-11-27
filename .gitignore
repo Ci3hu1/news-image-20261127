@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+output-test/
+output/
+competition.json
+quota.json
+requirements.json
