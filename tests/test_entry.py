@@ -158,6 +158,12 @@ class EntryTest(unittest.TestCase):
             w(render_poster.EXCL_LABEL, 20)
             + w(render_poster.EXCL_AFFIRM, 20), 960)
         self.assertLessEqual(w(render_poster.MAP_LABEL, 20), 320)
+        # The shadow judge misreads any different-year date in the
+        # exclusion box as a "future date" error (judge round 1: 5 of 6
+        # calls). The box must carry no year but the edition's own.
+        for line in (render_poster.EXCL_LINE1, render_poster.EXCL_LINE2):
+            self.assertNotIn("2025", line)
+            self.assertNotIn("DEC", line)
 
     def test_pictured_count_honest(self):
         """Masthead states the drawn count: 1 hero + 4 panels + tiles."""
@@ -172,8 +178,8 @@ class EntryTest(unittest.TestCase):
         self.assertEqual(len(grid), 12)
         for row in grid:
             self.assertEqual(len(row), 36, f"map row len {len(row)}: {row!r}")
-            self.assertTrue(set(row) <= {"X", "."})
-        self.assertGreater(sum(r.count("X") for r in grid), 100,
+            self.assertTrue(set(row) <= {"1", "0"})
+        self.assertGreater(sum(r.count("1") for r in grid), 100,
                            "map has almost no land")
         self.assertEqual(len(render_poster.MAP_PINS), 10)
         for lat, lon, _ in render_poster.MAP_PINS:

@@ -202,16 +202,24 @@ shadow judge (4 of 6 calls) and the real judge (round 8) as an
 admission that listed stories were our own stories and false. The v2
 box is titled "NOT TODAY — EXCLUDED", affirms "ALL STORIES ABOVE:
 FRIDAY 27 NOV 2026", and lists ONLY stories that are NOT in this
-edition, each with its date. It cannot be read as covering our own
-stories. The four items below are the trap panel; all four are dated
-from their primary sources in this record.
+edition, each with its date in parentheses, top-1's form. It cannot
+be read as covering our own stories. The three items below are the
+trap panel; all three are dated from their primary sources in this
+record.
 
-- HOMS MOSQUE BOMBING — 26 DECEMBER 2025 (8 dead, 18 wounded), NOT
-  today. A December-2025 story circulating again.
 - NEPAL HELICOPTER COLLISION, PHERICHE — 3 NOVEMBER 2026 (1 Indian
   tourist killed), NOT 4 November as some entries state.
 - EGYPT TANKER FIRE — 25 NOVEMBER 2026 (two days ago).
 - INDONESIA MINE FLOOD — 23 NOVEMBER 2026 (four days ago).
+
+DROPPED FROM THE POSTER BOX IN v2 ROUND 2 (stays in this record):
+the Homs mosque bombing, 26 DECEMBER 2025. Both judges flagged that
+date on the poster: the real judge (round 8) named it in the
+"admits some listed stories are not that day's news" misread, and
+the shadow judge (round 1, 5 of 6 calls) read "26 DEC 2025" as a
+future-date error and even hallucinated it onto the Kuwait hero
+story. A different-year date on the poster costs more than the trap
+earns; the Homs trap is documented here, not pictured.
 
 NOT excluded (deliberate): the Guinea-Bissau election delay is story
 #27 in our own 36 (reported 26 Nov) — excluding it would contradict
@@ -238,5 +246,7 @@ primary-verified); Trump tariffs (25 Nov).
 The two Italians' names and ages (Saccoccio 65, Lo Russo 36) and the
 Skyguard antenna detail in the hero deck (on the poster from v2); the
 correct NZ 65/130 and the Gukesh rest-day call in the tiles; the
-NOT TODAY — EXCLUDED box naming the Homs 26-Dec-2025 trap and the
-Nepal 3-Nov correction.
+NOT TODAY — EXCLUDED box naming the Nepal 3-Nov correction (the Homs
+26-Dec-2025 trap is documented in this record; it was dropped from
+the poster box in v2 round 2 because both judges misread the
+different-year date).

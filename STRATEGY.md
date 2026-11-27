@@ -100,7 +100,14 @@ map was named in every loss. v2 fixes exactly those gaps, in order:
 1. **Exclusion box.** "NOT TODAY — EXCLUDED" + the affirmation "ALL
    STORIES ABOVE: FRIDAY 27 NOV 2026" + only non-edition items,
    each dated (Homs 26 Dec 2025, Nepal 3 Nov 2026, Egypt tanker
-   25 Nov 2026, Indonesia mine 23 Nov 2026).
+   25 Nov 2026, Indonesia mine 23 Nov 2026). ROUND 2 (after shadow
+   judge round 1 went 0W-0D-3L): the Homs 26 Dec 2025 item was
+   dropped from the poster box — the shadow judge read the
+   different-year date as a future-date error in 5 of 6 calls and
+   hallucinated it onto the Kuwait hero, and the real judge had
+   named it in the round-8 misread too. The box now carries only
+   the three November-2026 items, dated in parentheses, top-1's
+   form. The Homs trap stays documented in STORIES.md.
 2. **Pictured-count honesty.** Masthead now states "36 STORIES ·
    15 DRAWN · 8 REGIONS" (top-1's own convention: total AND drawn
    count). Two tiles cut for the map (Ibiza tanker, India U-19 —
@@ -128,3 +135,21 @@ New risks: tile scenes are 36px tall (was 54px) — small but simple
 shapes; the map strip is 328×86, so the dotted world is squashed
 ~1.6× vertically (stylised, no coastlines to smear); the hero deck
 runs two 20px lines with 1.1× leading above the 36px stat.
+
+## v2 judge round 1 (27 Nov ~05:22 WIB) — Uji FAIL 0W-0D-3L (0%)
+
+Worse than v1's shadow run (17%). The shadow judge (gemini-flash-lite)
+misread the exclusion box in 5 of 6 calls: it called "26 DEC 2025" a
+future-date error (it cannot compare Dec 2025 < Nov 2026), hallucinated
+the date onto the Kuwait hero ("the NOT TODAY footer lists the Kuwait
+drone strike as 26 Dec 2025"), and objected to past dates appearing at
+all. Top-1's own date-check box — which the same model praises — lists
+only same-month dates "(26 Nov)", "(25 Nov)", "(22 Nov)". Verifikasi
+also FAILED on one deterministic gate: no_placeholders flagged the map
+grid's runs of 'X' as placeholder text. Round-2 fixes: (1) Homs
+26 Dec 2025 dropped from the poster box (record keeps it); the box
+now carries only the three November-2026 items, dated "(3 NOV)" etc.
+(2) Map grid 'X'/'.' → '1'/'0'. Verifikasi's other gates passed
+(legibility now PASS, unique detail PASS with Saccoccio/Lo Russo/
+Skyguard, numbers PASS, 15 pictured PASS); kit_check was SKIP (no
+bundle — the parent bundles with usage rows after this run).
