@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Friday Night Edition entrypoint (news-image-20261127 v1).
+"""Friday Night Edition entrypoint (news-image-20261127 v2).
 
 The grader runs this program with a plain Python 3.13 standard library
 and no network. All it does is put the poster that ships in this

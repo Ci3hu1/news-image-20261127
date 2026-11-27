@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Tests for the news-image-20261127 v1 entry.
+"""Tests for the news-image-20261127 v2 entry.
 
 Covers the grader contract (stdlib-only entrypoint, deterministic
 byte-identical output, 1024x1024 PNG <= 1 MiB, world-readable output),
 the 300px legibility gate (Laplacian variance of the sharpened 300px
-preview), the micro-text floors, and the story record (36 stories,
-8 regions, DATE CHECK present).
+preview), the micro-text floors (v2: NOTHING under 20px, after the
+real judge penalised v1's small tiles in 2 of 24 calls), the width
+audit (every literal measured at its drawn size), the story record
+(36 stories, 8 regions, exclusion box present), and the v2 fixes
+(15 drawn stated in the masthead, map strip present).
 """
 
 import ast
@@ -15,7 +18,7 @@ import subprocess
 import sys
 import unittest
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -125,15 +128,58 @@ class EntryTest(unittest.TestCase):
     def test_text_floors(self):
         sizes = render_poster.TEXT_SIZES
         floors = {"hero_headline": 24, "headline": 24, "deck": 20,
-                  "stat": 36, "timeline": 20, "tile_label": 18,
-                  "datecheck": 18, "footer": 16, "region": 18,
-                  "source": 18, "chip": 18, "number": 24, "kicker": 20,
-                  "title": 24}
+                  "stat": 36, "timeline": 20, "tile_label": 20,
+                  "datecheck": 20, "footer": 20, "region": 20,
+                  "source": 20, "chip": 20, "number": 24, "kicker": 20,
+                  "title": 24, "map_label": 20}
         for role, floor in floors.items():
             self.assertGreaterEqual(sizes[role], floor,
                                     f"{role} {sizes[role]}px < floor {floor}")
         for role, size in sizes.items():
-            self.assertGreaterEqual(size, 16, f"{role} {size}px < 16")
+            self.assertGreaterEqual(size, 20, f"{role} {size}px < 20")
+
+    def test_width_audit(self):
+        """Every poster literal, measured at its drawn size, fits."""
+        probe = Image.new("RGB", (10, 10))
+        d = ImageDraw.Draw(probe)
+
+        def w(text, size):
+            return d.textlength(text, font=render_poster.fs(size)) / 2
+        for l1, l2, _ in render_poster.TILES:
+            self.assertLessEqual(w(l1, 20), 160, f"tile label over: {l1!r}")
+            self.assertLessEqual(w(l2, 20), 160, f"tile label over: {l2!r}")
+        for line in render_poster.HERO_DECK:
+            self.assertLessEqual(w(line, 20), 564, f"hero deck over: {line!r}")
+        self.assertLessEqual(w(render_poster.MASTHEAD_RIGHT, 20), 500)
+        self.assertLessEqual(w(render_poster.EXCL_LINE1, 20), 980)
+        self.assertLessEqual(w(render_poster.EXCL_LINE2, 20), 980)
+        self.assertLessEqual(w(render_poster.EXCL_SOURCES, 20), 980)
+        self.assertLessEqual(
+            w(render_poster.EXCL_LABEL, 20)
+            + w(render_poster.EXCL_AFFIRM, 20), 960)
+        self.assertLessEqual(w(render_poster.MAP_LABEL, 20), 320)
+
+    def test_pictured_count_honest(self):
+        """Masthead states the drawn count: 1 hero + 4 panels + tiles."""
+        pictured = 1 + len(render_poster.PANELS) + len(render_poster.TILES)
+        self.assertEqual(pictured, 15, f"pictured {pictured}, want 15")
+        self.assertIn(f"{pictured} DRAWN", render_poster.MASTHEAD_RIGHT)
+        self.assertIn("36 STORIES", render_poster.MASTHEAD_RIGHT)
+
+    def test_map_strip(self):
+        """Dotted world map: 12 rows x 36 cols, 10 pins, dots/pins >=6px."""
+        grid = render_poster.MAP_GRID
+        self.assertEqual(len(grid), 12)
+        for row in grid:
+            self.assertEqual(len(row), 36, f"map row len {len(row)}: {row!r}")
+            self.assertTrue(set(row) <= {"X", "."})
+        self.assertGreater(sum(r.count("X") for r in grid), 100,
+                           "map has almost no land")
+        self.assertEqual(len(render_poster.MAP_PINS), 10)
+        for lat, lon, _ in render_poster.MAP_PINS:
+            self.assertTrue(-60 <= lat <= 80, f"pin lat {lat}")
+            self.assertTrue(-180 <= lon <= 180, f"pin lon {lon}")
+
 
     def test_story_record(self):
         with open(os.path.join(ROOT, "STORIES.md")) as f:
@@ -146,7 +192,8 @@ class EntryTest(unittest.TestCase):
             regions[r] = regions.get(r, 0) + 1
         self.assertEqual(len(regions), 8, f"regions: {regions}")
         self.assertEqual(sum(regions.values()), 36)
-        self.assertIn("DATE CHECK", text)
+        self.assertIn("NOT TODAY", text)
+        self.assertIn("EXCLUDED", text)
         self.assertIn("26 DECEMBER 2025", text)
         self.assertIn("3 NOVEMBER 2026", text)
 
