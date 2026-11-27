@@ -93,8 +93,11 @@ class EntryTest(unittest.TestCase):
     def test_main_never_chmods_the_output_dir(self):
         with open(os.path.join(ROOT, "main.py")) as f:
             src = f.read()
-        self.assertNotIn("os.chmod(target_dir", src)
-        self.assertNotIn("chmod(", src.replace("os.chmod(target, 0o644)", ""))
+        # Only the output FILE may be chmodded (dest.chmod); the output
+        # directory itself must never be chmodded (Thankful R1 lesson).
+        self.assertNotIn("os.chmod(", src)
+        self.assertNotIn("out_dir.chmod(", src)
+        self.assertIn("dest.chmod(0o644)", src)
 
     def test_render_rebuilds_entry(self):
         proc = subprocess.run(
